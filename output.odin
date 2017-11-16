@@ -87,5 +87,5 @@ func :: proc() -> u64 {
 }
 BUG: complains about binary expression `(u64(foo) << 32)` : u64 vs u32
 It should mention bar, as bar is the variable with a mismatched type
-(untyped constants can't be of the wrong type, by definition)
+(untyped constants can't be of the wrong type here, by definition)
 */
