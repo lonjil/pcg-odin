@@ -1,22 +1,13 @@
-/*State_8 :: struct {
-	MULT :: 141, // assocciating data with struct/type/whatever?
-	state: u8,
-}*/
-
-
-State_Setseq_8 :: struct #ordered {
-	state, inc: u8,
+Pcg_State :: struct(Type: type) {
+	state: Type,
 };
-State_Setseq_16 :: struct #ordered {
-	state, inc: u16,
+Oneseq :: Pcg_State;
+Mcg :: Pcg_State;
+Unique :: Pcg_State;
+Setseq :: struct(Type: type) #ordered {
+	using _state: Pcg_State(Type),
+	inc: Type,
 };
-State_Setseq_32 :: struct #ordered {
-	state, inc: u32,
-};
-State_Setseq_64 :: struct #ordered {
-	state, inc: u64,
-};
-State_Setseq_128 :: struct #ordered {
-	state, inc: u128,
-};
-
+State :: struct(State_Type: type) #ordered {
+	using __state: State_Type,
+}

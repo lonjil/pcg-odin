@@ -35,6 +35,13 @@ tindex :: inline proc(T: type) -> uint {
 type_constant :: inline proc(T: type, arr: []u128) -> T {
 	return T(arr[tindex(T)]);
 }
+inc_of :: inline proc(state: ^$T/State($E)) -> E {
+	when T == Unique do return E(rawptr(State) | 1);
+	else when T == Mcg do return 0;
+	else when T == Setseq do return state.inc;
+	else do return type_constant(E, incs);
+	return 0;
+}
 /* for oneseq and unique */
 STATE_LCG_8_INIT	:: 0xD7;
 STATE_LCG_16_INIT	:: 0x20DF;
@@ -48,11 +55,11 @@ STATE_MCG_32_INIT	:: 0xD15EA5E5;
 STATE_MCG_64_INIT	:: 0xCAFEF00DD15EA5E5;
 STATE_MCG_128_INIT	:: 0x0000000000000000CAFEF00DD15EA5E5;
 
-STATE_SETSEQ_8_INIT 	:= State_Setseq_8{0x9B, 0xDB};
-STATE_SETSEQ_16_INIT 	:= State_Setseq_16{0xe39b, 0x5bdb};
-STATE_SETSEQ_32_INIT 	:= State_Setseq_32{0xec02d89b, 0x94b95bdb};
-STATE_SETSEQ_64_INIT 	:= State_Setseq_64{0x853c49e6748fea9b,
-						0xda3e39cb94b95bdb};
-STATE_SETSEQ_128_INIT 	:= State_Setseq_128{
+/*STATE_SETSEQ_8_INIT 	:= State(Setseq(u8)){{0x9B, 0xDB}};
+STATE_SETSEQ_16_INIT 	:= State(Setseq(u16)){{0xe39b, 0x5bdb}};
+STATE_SETSEQ_32_INIT 	:= State(Setseq(u32)){{0xec02d89b, 0x94b95bdb}};
+STATE_SETSEQ_64_INIT 	:= State(Setseq(u64)){{0x853c49e6748fea9b,
+						0xda3e39cb94b95bdb}};
+STATE_SETSEQ_128_INIT 	:= State(Setseq(u128)){{
 	0x979c9a98d84620057d3e9cb6cfe0549b,
-	0x0000000000000001da3e39cb94b95bdb};
+	0x0000000000000001da3e39cb94b95bdb}};*/
