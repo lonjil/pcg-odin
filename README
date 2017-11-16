@@ -1,0 +1,10 @@
+Incredibly incomplete implementation of the PCG family of random number genertors in the Odin programming language.
+
+
+# Installation
+Just clone to your Odin/shared folder.
+
+# Usage
+Just import "shared:pcg/pcg.odin"
+
+Look inside of pcg.odin for futher information.
