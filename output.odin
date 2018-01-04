@@ -2,13 +2,13 @@ using import "core:bits.odin";
 
 // XorShift, Random Shift: state = 2*output
 xsh_rs ::  inline proc(state: u16) -> u8 {
-	return  u8(((state >> 07) ~ state) >> ((state >> 014) + 03));
+	return  u8(((state >> 7) ~ state) >> ((state >> 14) + 3));
 }
 xsh_rs ::  inline proc(state: u32) -> u16 {
-	return u16(((state >> 11) ~ state) >> ((state >> 030) + 11));
+	return u16(((state >> 11) ~ state) >> ((state >> 30) + 11));
 }
 xsh_rs ::  inline proc(state: u64) -> u32 {
-	return u32(((state >> 22) ~ state) >> ((state >> 061) + 22));
+	return u32(((state >> 22) ~ state) >> ((state >> 61) + 22));
 }
 xsh_rs :: inline proc(state: u128) -> u64 {
 	return u64(((state >> 43) ~ state) >> ((state >> 124) + 45));
@@ -16,16 +16,20 @@ xsh_rs :: inline proc(state: u128) -> u64 {
 
 // XorShift, Random Rotation: state = 2*output
 xsh_rr :: inline proc(state: u16) -> u8 {
-	return rotate_right(u8((state >> 5) ~ state) >>  5, uint(state>>13));
+	return rotate_right(u8(((state >> 5) ~ state) >>  5),
+			uint(state >> 13));
 }
 xsh_rr :: inline proc(state: u32) -> u16 {
-	return rotate_right(u16((state>>10) ~ state) >> 12, uint(state>>28));
+	return rotate_right(u16(((state >> 10) ~ state) >> 12),
+			uint(state>>28));
 }
 xsh_rr :: inline proc(state: u64) -> u32 {
-	return rotate_right(u32((state>>18) ~ state) >> 27, uint(state>>59));
+	return rotate_right(u32(((state >> 18) ~ state) >> 27),
+			uint(state >> 59));
 }
 xsh_rr :: inline proc(state: u128) -> u64 {
-	return rotate_right(u64((state>>29) ~ state) >>  58, uint(state>>122));
+	return rotate_right(u64(((state >> 29) ~ state) >>  58),
+			uint(state >> 122));
 }
 
 // Random XorShift, Multiplication, XorShift: state = output

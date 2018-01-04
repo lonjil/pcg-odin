@@ -1,30 +1,38 @@
 using import "constants.odin";
 using import "types.odin";
 
-step :: inline proc(state: ^$T/State($E)) {
-	state^ = state^ * type_constant(E, mults)
-			+ inc_of(state);
+step :: inline proc(using rng: ^Rng($K, $SK, $S, $O)) {
+	state = state * type_constant(S, mults)
+			+ inc_of(&state, K);
 }
-advance :: inline proc(state: ^$T/State($E), delta: E) {
-	state.state = advance_lcg(state.state, delta,
-			type_constant(E, mults),
-			inc_of(state));
+advance :: inline proc(using rng: ^Rng($K, $SK, $S, $O), delta: S) {
+	state = advance_lcg(state, delta,
+			type_constant(S, mults),
+			inc_of(&state, K));
 }
-seed :: inline proc(state: ^State(Mcg($E)), init: E) {
-	state.state = init | 1;
+
+
+seed :: inline proc(using rng: ^Rng(Mcg, $SK, $S, $O), init: S) {
+	state = init | 1;
 }
-seed :: inline proc(state: ^State(Setseq($E)), init, seq: E) {
-	state.state = 0;
-	state.inc = (seq << 1) | 1;
-	step(state);
-	state.state += init;
-	step(state);
+seed :: inline proc(using rng: ^SetRng(Setseq, $SK, $S, $O), init, seq: S) {
+	state = 0;
+	inc = (seq << 1) | 1;
+	step(rng);
+	state += init;
+	step(rng);
 }
-seed :: inline proc(state: ^$T/State($E), init: E) {
-	state.state = 0;
-	step(state);
-	state.state += init;
-	step(state);
+seed :: inline proc(using rng: ^Rng(Unique, $SK, $S, $O), init: S) {
+	state = 0;
+	step(rng);
+	state += init;
+	step(rng);
+}
+seed :: inline proc(using rng: ^Rng(Oneseq, $SK, $S, $O), init: S) {
+	state = 0;
+	step(rng);
+	state += init;
+	step(rng);
 }
 
 

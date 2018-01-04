@@ -57,23 +57,26 @@ pcg32o_rs :: proc(state: ^u64) -> u32 {
 	return u32(state^ >> (29 - (state^ >> 61)));
 }*/
 
+Pcg32  :: #alias Rng(Setseq,u64,u32);
+Pcg32s :: #alias Rng(Oneseq,u64,u32);
+Pcg32u :: #alias Rng(Unique,u64,u32);
+Pcg32f :: #alias Rng(Mcg,u64,u32);
+pcg_srandom :: seed;
 
-pcg32s_srandom :: oneseq_seed;
-
-oneseq_64_xsh_rr_32 :: proc(state: ^u64) -> u32 {
-	oldstate := state^;
-	oneseq_step(state);
+pcg_random :: proc(using rng: ^Rng($K, $S, $O)) -> O {
+	oldstate := state;
+	step(rng);
 	return xsh_rr(oldstate);
 }
-pcg32s_random :: oneseq_64_xsh_rr_32;
-pcg32_boundedrand :: proc(state: ^u64, bound: u32) -> u32 {
+//pcg32s_random :: oneseq_64_xsh_rr_32;
+/*pcg32_boundedrand :: proc(state: ^u64, bound: u32) -> u32 {
 	threshold := -bound % bound;
 	for {
-		r := pcg32s_random(state);
+		r := pcg_random(state);
 		if r >= threshold {
 			return r % bound;
 		}
 	}
 	return ~u32(0);
 }
-
+*/

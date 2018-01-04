@@ -35,11 +35,11 @@ tindex :: inline proc(T: type) -> uint {
 type_constant :: inline proc(T: type, arr: []u128) -> T {
 	return T(arr[tindex(T)]);
 }
-inc_of :: inline proc(state: ^$T/State($E)) -> E {
-	when T == Unique do return E(rawptr(State) | 1);
-	else when T == Mcg do return 0;
-	else when T == Setseq do return state.inc;
-	else do return type_constant(E, incs);
+inc_of :: inline proc(using ___state: ^$T/State($S), Kind: type) -> S {
+	when Kind == Unique do return T(rawptr(state) | 1);
+	else when Kind == Mcg do return 0;
+	else when T == Setseq do return inc;
+	else do return type_constant(S, incs);
 	return 0;
 }
 /* for oneseq and unique */

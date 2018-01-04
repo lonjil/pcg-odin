@@ -1,13 +1,13 @@
-Pcg_State :: struct(Type: type) {
-	state: Type,
+Pcg_Kind :: struct {
 };
-Oneseq :: Pcg_State;
-Mcg :: Pcg_State;
-Unique :: Pcg_State;
-Setseq :: struct(Type: type) #ordered {
-	using _state: Pcg_State(Type),
-	inc: Type,
-};
-State :: struct(State_Type: type) #ordered {
-	using __state: State_Type,
+Oneseq :: Pcg_Kind;
+Mcg :: Pcg_Kind;
+Unique :: Pcg_Kind;
+Setseq :: Pcg_Kind;
+Rng :: struct(Kind, Size, Out_Size: type) {
+	state: Size,
 }
+SetRng :: struct(Kind, Size, Out_Size: type) #ordered {
+	using _state: Rng(Kind, Size, Out_Size),
+	inc: Size,
+};
